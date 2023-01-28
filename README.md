@@ -4,7 +4,7 @@
 ## Getting started
 
 - Install the [tpm](https://github.com/tmux-plugins/tpm) Tmux Plugin Manager.
-- Put `set -g @plugin 'thuanOwa/tmux-fzf-window-switch'` into your tmux config
+- Put `set -g @plugin 'isbhargav/tmux-fzf-window-switch'` into your tmux config
 - Use tpm to install this plugin. Default you can press `prefix + I` (`I` is
   `shift + i` = I)
 
@@ -12,7 +12,7 @@
   press a -> press l -> done)
 - If you type a name that doesn't exist, you will be prompted to create it. 
 
-> If this name conflicts with another session name -> add a double/single quotes `'example'`
+> If this name conflicts with another window name -> add a double/single quotes `'example'`
 
 ## Requirements
 
@@ -20,33 +20,7 @@
 - [fzf](https://github.com/junegunn/fzf)
 - Rg (recommended but not required)
 
-## Customize
+## Credits
 
-> 🫰Thanks to [@erikw](https://github.com/erikw)
-
-### Key binding
-
-```bash
-set -g @fzf-goto-window 'key binding'
-```
-
-> Eg. to override the default session switcher in tmux available at `prefix` + s`:
-
-```bash
-set -g @fzf-goto-window 's'
-```
-
-### Window dimensions
-
-```bash
-set -g @fzf-goto-win-width WIDTH
-set -g @fzf-goto-win-height HEIGHT
-```
-
-> Eg.
-
-```bash
-set -g @fzf-goto-win-width 70
-set -g @fzf-goto-win-height 20
-```
+This plugin is heavily inspired from https://github.com/rcribbs/tmux-fzf-session-switch
 
