@@ -8,6 +8,7 @@ function main {
   local query
   local win_arr
   local retval
+
   windows=$(tmux list-windows -F "#{window_name}" |
     fzf --select-1 --exit-0 --print-query --reverse)
   retval=$?

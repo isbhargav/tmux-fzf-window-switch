@@ -2,7 +2,7 @@
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-default_key_bindings_goto="C-l"
+default_key_bindings_goto="C-o"
 default_width=50
 default_height=10
 
@@ -21,19 +21,16 @@ get_tmux_option() {
   fi
 }
 
+
 function set_goto_window_bindings {
   local key_bindings=$(get_tmux_option "$tmux_option_goto" \
     "$default_key_bindings_goto")
-  local width=$(get_tmux_option "$tmux_option_width" \
-    "$default_width")
-  local height=$(get_tmux_option "$tmux_option_height" \
-    "$default_height")
-
   local key
   for key in $key_bindings; do
-    tmux bind "$key" display-popup -w "$width" -h "$height" -y 15 -E "$CURRENT_DIR/scripts/switch_window_fzf.sh"
+    tmux bind "$key" new-window "$CURRENT_DIR/scripts/switch_window_fzf.sh"
   done
 }
+
 
 function main {
   set_goto_window_bindings
