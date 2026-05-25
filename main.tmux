@@ -2,7 +2,8 @@
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-default_key_bindings_goto="C-f"
+default_key_bindings_session="C-f"
+default_key_bindings_window="C-o"
 default_width=55
 default_height=10
 default_width_preview=80
@@ -10,8 +11,9 @@ default_height_preview=20
 default_without_prefix=false
 default_preview_enabled=false
 
-tmux_option_goto="@fzf-goto-window"
-tmux_option_goto_without_prefix="@fzf-goto-window-without-prefix"
+tmux_option_session="@fzf-goto-session"
+tmux_option_window="@fzf-goto-window"
+tmux_option_without_prefix="@fzf-goto-without-prefix"
 tmux_option_width="@fzf-goto-win-width"
 tmux_option_height="@fzf-goto-win-height"
 tmux_option_width_preview="@fzf-goto-win-width-preview"
@@ -29,9 +31,10 @@ get_tmux_option() {
     fi
 }
 
-function set_goto_window_bindings {
-    local key_bindings=$(get_tmux_option "$tmux_option_goto" "$default_key_bindings_goto")
-    local without_prefix=$(get_tmux_option "$tmux_option_goto_without_prefix" "$default_without_prefix")
+function set_bindings {
+    local session_key=$(get_tmux_option "$tmux_option_session" "$default_key_bindings_session")
+    local window_key=$(get_tmux_option "$tmux_option_window" "$default_key_bindings_window")
+    local without_prefix=$(get_tmux_option "$tmux_option_without_prefix" "$default_without_prefix")
     local preview_enabled=$(get_tmux_option "$tmux_option_preview_enabled" "$default_preview_enabled")
 
     local width
@@ -54,18 +57,24 @@ function set_goto_window_bindings {
 
     if [ "$without_prefix" = true ]; then
         local key
-        for key in $key_bindings; do
+        for key in $session_key; do
+            tmux bind -n "$key" display-popup -w "$width" -h "$height" -y 15 -E "$preview_option $CURRENT_DIR/scripts/switch_session_fzf.sh"
+        done
+        for key in $window_key; do
             tmux bind -n "$key" display-popup -w "$width" -h "$height" -y 15 -E "$preview_option $CURRENT_DIR/scripts/switch_window_fzf.sh"
         done
     else
         local key
-        for key in $key_bindings; do
+        for key in $session_key; do
+            tmux bind "$key" display-popup -w "$width" -h "$height" -y 15 -E "$preview_option $CURRENT_DIR/scripts/switch_session_fzf.sh"
+        done
+        for key in $window_key; do
             tmux bind "$key" display-popup -w "$width" -h "$height" -y 15 -E "$preview_option $CURRENT_DIR/scripts/switch_window_fzf.sh"
         done
     fi
 }
 
 function main {
-    set_goto_window_bindings
+    set_bindings
 }
 main
